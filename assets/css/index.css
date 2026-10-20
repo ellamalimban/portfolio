@@ -1,0 +1,1047 @@
+/* ==========================================================================
+   1. RESET & BASE SETUP
+   ========================================================================== */
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+body { 
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+  background-color: #12151c; /* Base dark background */
+  color: #ffffff; 
+  line-height: 1.5; 
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Enable smooth slide animations when clicking anchor links */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px; /* Prevents section headers from hiding behind top nav */
+}
+
+/* Base style for placeholder sections below the hero */
+.content-section {
+  min-height: 80vh;
+  max-width: 100%; /* Spans full width so background fills edge-to-edge */
+  margin: 0 auto;
+  padding: 6rem 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.content-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #38bdf8;
+}
+
+/* ==========================================================================
+  ALTERNATE SECTION COLORS
+   ========================================================================== */
+/* Odd sections (e.g., Section 1: About, Section 3: Projects) */
+section.content-section:nth-of-type(odd) {
+  background-color: #161b26; /* Slightly lighter deep slate */
+}
+
+/* Even sections (e.g., Section 2: Skills, Section 4: Contact) */
+section.content-section:nth-of-type(even) {
+  background-color: #0f1218; /* Darker charcoal slate */
+}
+
+
+/* ==========================================================================
+   2. NAVBAR STYLING
+   ========================================================================== */
+nav { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 1.5rem 5%; 
+  width: 100%;
+  max-width: 100%; 
+  margin: 0 auto; 
+  position: sticky;
+  top: 0;
+  background-color: rgba(18, 21, 28, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 50;
+}
+
+.logo { 
+  font-size: 1.4rem; 
+  font-weight: 700; 
+  color: #ffffff; 
+  text-decoration: none; 
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
+}
+
+.logo span { color: #2563eb; }
+
+.nav-links { 
+  display: flex; 
+  list-style: none; 
+  gap: 2.5rem; 
+  align-items: center; 
+}
+
+.nav-links a { 
+  color: #94a3b8; 
+  text-decoration: none; 
+  font-size: 0.95rem; 
+  font-weight: 500; 
+  transition: color 0.2s ease; 
+}
+
+.nav-links a:hover, 
+.nav-links a.active { 
+  color: #ffffff; 
+}
+
+/* --- Hamburger Button (Hidden on Desktop) --- */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 60;
+}
+
+.hamburger-btn .bar {
+  width: 100%;
+  height: 3px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+}
+
+.hamburger-btn.active .bar:nth-child(1) {
+  transform: translateY(8.5px) rotate(45deg);
+}
+
+.hamburger-btn.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-btn.active .bar:nth-child(3) {
+  transform: translateY(-8.5px) rotate(-45deg);
+}
+
+/* ==========================================================================
+   3. HERO LAYOUT (OVERLAPPING CUTOUT PORTRAIT)
+   ========================================================================== */
+.hero-container { 
+  display: grid; 
+  grid-template-columns: 1.1fr 1.3fr 1fr; 
+  max-width: 1400px; 
+  margin: 0 auto; 
+  padding: 0 5%; 
+  align-items: end;
+  height: calc(100vh - 90px); 
+  position: relative; 
+}
+
+/* --- Left Column --- */
+.hero-left { 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  z-index: 5; 
+  padding-bottom: 15vh;
+}
+
+.line-accent { 
+  width: 70px; 
+  height: 4px; 
+  background-color: #ffffff; 
+  margin-bottom: 2rem; 
+}
+
+.hero-left h1 { 
+  font-size: clamp(2.8rem, 4.5vw, 4.2rem); 
+  font-weight: 800; 
+  line-height: 1.08; 
+  margin-bottom: 1.5rem; 
+  letter-spacing: -0.02em;
+}
+
+.hero-left p { 
+  color: #94a3b8; 
+  font-size: 1.05rem; 
+  max-width: 400px; 
+  line-height: 1.6;
+}
+
+.scroll-btn { 
+  width: 64px; 
+  height: 64px; 
+  background-color: #2563eb; 
+  border-radius: 50%; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  margin-top: 2.5rem; 
+  cursor: pointer; 
+  color: #ffffff; 
+  border: none; 
+  font-size: 1.4rem; 
+  text-decoration: none;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.scroll-btn:hover {
+  transform: translateY(4px);
+  background-color: #1d4ed8;
+}
+
+/* --- Center Column (Portrait Cutout) --- */
+.hero-center { 
+  display: flex; 
+  justify-content: center; 
+  align-items: flex-end; 
+  height: 100%; 
+  z-index: 2; 
+  pointer-events: none; 
+}
+
+.profile-pic-space { 
+  width: 100%; 
+  max-width: 580px; 
+  height: 82vh; 
+  display: flex; 
+  align-items: flex-end; 
+  justify-content: center; 
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+}
+
+.profile-pic-space img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: contain; 
+  object-position: bottom center; 
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5)); 
+  display: block;
+}
+
+/* --- Right Column --- */
+.hero-right { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 2.5rem; 
+  z-index: 5; 
+  padding-bottom: 15vh;
+  padding-left: 2rem;
+}
+
+.info-block {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.info-block h3 { 
+  font-size: 0.8rem; 
+  text-transform: uppercase; 
+  letter-spacing: 2px; 
+  color: #94a3b8; 
+  margin-bottom: 0.75rem; 
+  font-weight: 700;
+}
+
+.info-block p { 
+  color: #cbd5e1; 
+  font-size: 0.95rem; 
+  margin-bottom: 0.85rem; 
+  max-width: 340px; 
+  line-height: 1.5;
+}
+
+.action-link { 
+  color: #ffffff; 
+  text-decoration: none; 
+  font-weight: 700; 
+  font-size: 0.85rem; 
+  letter-spacing: 0.05em;
+  display: inline-flex; 
+  align-items: center; 
+  gap: 6px; 
+  border-bottom: 1px solid #ffffff; 
+  padding-bottom: 3px; 
+  transition: color 0.2s, border-color 0.2s; 
+}
+
+.action-link:hover { 
+  color: #38bdf8; 
+  border-color: #38bdf8; 
+}
+
+.social-links { 
+  display: flex; 
+  gap: 1.25rem; 
+}
+
+.social-links a { 
+  color: #ffffff; 
+  text-decoration: none; 
+  font-size: 1.1rem; 
+  font-weight: 600;
+  transition: color 0.2s, transform 0.2s; 
+}
+
+.social-links a:hover { 
+  color: #38bdf8; 
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   4. RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+/* Tablet & Mobile Layout */
+@media (max-width: 1024px) {
+  .hamburger-btn {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 5%;
+    right: 5%;
+    background-color: #1a202c;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .nav-links.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .hero-container { 
+    grid-template-columns: 1fr; 
+    height: auto;
+    gap: 2rem; 
+    text-align: center;
+    padding-top: 2rem;
+  }
+  
+  .hero-left, .hero-right {
+    align-items: center;
+    padding-bottom: 4vh;
+    padding-left: 0;
+  }
+
+  .line-accent { 
+    margin: 0 auto 1.5rem auto; 
+  }
+  
+  .hero-center { 
+    order: -1; 
+  }
+  
+  .profile-pic-space { 
+    height: 45vh; 
+    max-width: 380px;
+  }
+
+  .action-link { 
+    margin: 0 auto; 
+  }
+
+  .social-links { 
+    justify-content: center; 
+  }
+}
+
+/* Desktop Sizing (1025px and up) */
+@media (min-width: 1025px) {
+  .hero-container {
+    grid-template-columns: 1fr 1.8fr 1fr; 
+    align-items: end;
+  }
+
+  .profile-pic-space { 
+    max-width: 720px; 
+    height: 88vh; 
+  }
+
+  .profile-pic-space img {
+    transform: scale(1.05); 
+    transform-origin: bottom center;
+  }
+}
+
+/* ==========================================================================
+   ABOUT ME SECTION (2-COLUMN DESKTOP SPLIT)
+   ========================================================================== */
+.about-section {
+  width: 100%;
+  padding: 6rem 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-container {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr; /* Photo on left, text/cards on right */
+  gap: 4.5rem;
+  max-width: 1300px;
+  width: 100%;
+  align-items: center;
+}
+
+/* Left Column: Image */
+.about-left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-image-wrapper {
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 1 / 1;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  background: #1e2430;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.about-image-wrapper:hover {
+  transform: translateY(-4px);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.about-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Right Column: Content */
+.about-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.about-right .section-header {
+  margin-bottom: 0.5rem;
+}
+
+.about-right .section-header .sub-title {
+  display: block;
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #38bdf8;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.about-right .section-header h2 {
+  font-size: clamp(2.2rem, 3.2vw, 3rem);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.about-bio {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.about-bio .lead-text {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #f8fafc;
+  line-height: 1.6;
+}
+
+.about-bio p {
+  color: #94a3b8;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* Highlight Cards in 3 Columns on Desktop */
+.about-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.stat-card {
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 1.25rem 1rem;
+  border-radius: 12px;
+  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(56, 189, 248, 0.4);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.stat-card h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #38bdf8;
+  margin-bottom: 0.35rem;
+}
+
+.stat-card p {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVENESS
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .about-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+  }
+
+  .about-image-wrapper {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .about-cards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* ==========================================================================
+   SKILLS SECTION STYLING
+   ========================================================================== */
+.skills-section {
+  width: 100%;
+  padding: 6rem 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.skills-container {
+  max-width: 1300px;
+  width: 100%;
+}
+
+.skills-section .section-desc {
+  color: #94a3b8;
+  font-size: 1.05rem;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.skills-container, .skills-container h2 {
+  text-align: center;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 3.5rem;
+}
+
+.skill-category-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 2.25rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.skill-category-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(56, 189, 248, 0.4);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.category-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.skill-category-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.skill-category-card p {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1.75rem;
+}
+
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: auto;
+}
+
+.tag {
+  background-color: rgba(56, 189, 248, 0.08);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 0.4rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+}
+
+.tag:hover {
+  background-color: #38bdf8;
+  color: #0f172a;
+  border-color: #38bdf8;
+}
+
+@media (max-width: 1024px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* ==========================================================================
+   PROJECTS SECTION STYLING (MATCHING THE HOMEPAGE / ABOUT THEME)
+   ========================================================================== */
+
+.projects-section,
+.projects-page {
+  width: 100%;
+  min-height: calc(100vh - 160px);
+  padding: 5rem 6%;
+  background-color: #13161c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.projects-container {
+  max-width: 1400px;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Header Styling */
+.projects-container .section-header,
+.projects-page .page-header {
+  text-align: center;
+  max-width: 750px;
+  margin: 0 auto 3.5rem auto;
+}
+
+.section-label,
+.projects-container .sub-title,
+.projects-page .sub-title {
+  display: block;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #3498db;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.projects-container h2,
+.projects-page h1 {
+  font-size: clamp(2.3rem, 4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.projects-section .section-desc,
+.projects-page .page-desc {
+  color: #cbd5e1;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   5 CARDS IN ONE LINE (HORIZONTAL SCROLL / SNAP)
+   ========================================================================== */
+.projects-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 1.75rem;
+  overflow-x: auto;
+  padding: 1rem 0.5rem 2rem 0.5rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Custom Scrollbar */
+.projects-grid::-webkit-scrollbar {
+  height: 8px;
+}
+
+.projects-grid::-webkit-scrollbar-track {
+  background: #13161c;
+  border-radius: 10px;
+}
+
+.projects-grid::-webkit-scrollbar-thumb {
+  background: #2c3e50;
+  border-radius: 10px;
+  border: 1px solid #334155;
+}
+
+.projects-grid::-webkit-scrollbar-thumb:hover {
+  background: #3498db;
+}
+
+/* Card Structure */
+.project-card {
+  flex: 0 0 380px;
+  scroll-snap-align: start;
+  background: #1e2430;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 2.25rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  border-color: #3498db;
+}
+
+/* Top Meta */
+.project-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.project-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #3498db;
+  background: #13161c;
+  border: 1px solid #2c3e50;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+}
+
+.project-date {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.project-title {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.project-role {
+  display: block;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #3498db;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+}
+
+/* Bullet Points */
+.project-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.project-bullets li {
+  position: relative;
+  padding-left: 1.35rem;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.project-bullets li::before {
+  content: "▹";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #3498db;
+  font-size: 1rem;
+}
+
+/* Tag Pills */
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.project-tags .tag {
+  background-color: #13161c;
+  color: #3498db;
+  border: 1px solid #2c3e50;
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+}
+
+.project-tags .tag:hover {
+  background-color: #3498db;
+  color: #ffffff;
+  border-color: #3498db;
+}
+
+/* ==========================================================================
+   RESPONSIVE LAYOUT
+   ========================================================================== */
+@media (max-width: 768px) {
+  .projects-section,
+  .projects-page {
+    padding: 3.5rem 5%;
+  }
+
+  .project-card {
+    flex: 0 0 300px;
+    padding: 1.75rem 1.25rem;
+  }
+
+  .projects-container h2,
+  .projects-page h1 {
+    font-size: 2.2rem;
+  }
+}
+
+/* ==========================================================================
+   FORMAL CARDLESS CONTACT SECTION
+   ========================================================================== */
+
+.contact-section {
+  width: 100%;
+  padding: 6.5rem 6%;
+  background-color: #13161c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-linear-container {
+  max-width: 950px;
+  width: 100%;
+}
+
+/* Section Header */
+.contact-header {
+  margin-bottom: 3.5rem;
+}
+
+.contact-header .sub-title {
+  display: block;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #3498db;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+
+.contact-header h2 {
+  font-size: clamp(2.2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.85rem;
+}
+
+.contact-header .section-desc {
+  color: #94a3b8;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  max-width: 700px;
+}
+
+/* Table-Style List Rows */
+.contact-details-table {
+  border-top: 1px solid #2c3e50;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-row {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  padding: 2rem 0;
+  border-bottom: 1px solid #2c3e50;
+  align-items: baseline;
+  gap: 1.5rem;
+}
+
+.contact-category {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #64748b;
+}
+
+.contact-value {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.primary-text {
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.detail-note {
+  color: #94a3b8;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.formal-link {
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  display: inline-block;
+}
+
+.formal-link:hover {
+  color: #3498db;
+}
+
+.links-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.divider {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (TABLET & MOBILE)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .contact-section {
+    padding: 4.5rem 5%;
+  }
+
+  .contact-row {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+    padding: 1.5rem 0;
+  }
+
+  .contact-category {
+    color: #3498db;
+  }
+}
+
+/* ==========================================================================
+   FIX CLICKABLE PROJECT CARDS
+   ========================================================================== */
+
+/* 1. Ensure the parent section is elevated above any hero overflow */
+.projects-section {
+  position: relative;
+  z-index: 20 !important;
+}
+
+/* 2. Force the <a> card to act as a proper interactive flex block */
+a.project-card {
+  display: flex !important;
+  flex-direction: column;
+  position: relative;
+  z-index: 25 !important;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+/* 3. Let all clicks pass straight through to the parent <a> card */
+a.project-card * {
+  pointer-events: none !important;
+}
+
+/* 4. Fix potential invisible overlap from hero image wrapper */
+.hero-center,
+.profile-pic-space {
+  pointer-events: none !important;
+}
+
